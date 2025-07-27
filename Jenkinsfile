@@ -5,23 +5,24 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    dockerImage = docker.build('wordpress-app', '.')
+                    // Build custom WordPress image from Dockerfile
+                    sh 'docker build -t wordpress-app .'
                 }
             }
         }
-        stage('Run Container') {
+        stage('Start Services') {
             steps {
                 script {
-                    // Run the container in detached mode
-                    dockerImage.run('-d -p 8080:80 --name wordpress-app')
+                    // Start both WordPress and MySQL using docker-compose
+                    sh 'docker-compose up -d'
                 }
             }
         }
         stage('Run Tests') {
             steps {
                 script {
-                    // Example: Check if WordPress homepage is up
-                    sh 'curl --retry 10 --retry-delay 5 http://localhost:8080'
+                    // Check if WordPress homepage is up
+                    sh 'curl --retry 10 --retry-delay 5 http://localhost:8000'
                 }
             }
         }
@@ -37,8 +38,8 @@ pipeline {
     post {
         always {
             script {
-                // Clean up the container after pipeline finishes
-                sh 'docker rm -f wordpress-app || true'
+                // Clean up containers after pipeline finishes
+                sh 'docker-compose down'
             }
         }
     }
