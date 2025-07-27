@@ -2,9 +2,15 @@ pipeline {
     agent any
 
     stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
         stage('Build Docker Image') {
             steps {
                 script {
+                    sh 'ls -l'
                     // Build custom WordPress image from Dockerfile
                     sh 'docker build -t wordpress-app .'
                 }
