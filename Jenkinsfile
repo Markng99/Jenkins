@@ -11,16 +11,16 @@ pipeline {
             steps {
                 script {
                     sh 'ls -l'
-                    // Build custom WordPress image from Dockerfile
-                    sh 'docker build -t wordpress-app .'
+                    // Build custom WordPress image from sudo Dockerfile
+                    sh 'sudo docker build -t wordpress-app .'
                 }
             }
         }
         stage('Start Services') {
             steps {
                 script {
-                    // Start both WordPress and MySQL using docker-compose
-                    sh 'docker-compose up -d'
+                    // Start both WordPress and MySQL using sudo docker-compose
+                    sh 'sudo docker-compose up -d'
                 }
             }
         }
@@ -45,7 +45,7 @@ pipeline {
         always {
             script {
                 // Clean up containers after pipeline finishes
-                sh 'docker-compose down'
+                sh 'sudo docker-compose down'
             }
         }
     }
