@@ -12,7 +12,7 @@ pipeline {
                 script {
                     sh 'ls -l'
                     // Build custom WordPress image from sudo Dockerfile
-                    sh 'sudo docker build -t wordpress-app .'
+                    sh 'docker build -t wordpress-app .'
                 }
             }
         }
@@ -20,7 +20,7 @@ pipeline {
             steps {
                 script {
                     // Start both WordPress and MySQL using sudo docker-compose
-                    sh 'sudo docker-compose up -d'
+                    sh 'docker-compose up -d'
                 }
             }
         }
@@ -45,7 +45,7 @@ pipeline {
         always {
             script {
                 // Clean up containers after pipeline finishes
-                sh 'sudo docker-compose down'
+                sh 'docker-compose down'
             }
         }
     }
