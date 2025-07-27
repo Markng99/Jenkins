@@ -11,8 +11,8 @@ pipeline {
             steps {
                 script {
                     sh 'ls -l'
-                    // Build custom WordPress image from Dockerfile
-                    sh 'docker build -t wordpress-app .'
+                    // Use full path to docker binary
+                    sh '/usr/bin/docker build -t wordpress-app .'
                 }
             }
         }
